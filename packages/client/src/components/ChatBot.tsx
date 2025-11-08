@@ -2,7 +2,7 @@ import { Button } from './ui/button';
 import { FaArrowUp } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MarkDown from 'react-markdown';
 
 type FormData = {
@@ -22,6 +22,11 @@ function ChatBot() {
   const [messages, setMessages] = useState<MessageFeed[]>([]);
   const [isBotTyping, setIsBotTyping] = useState(false);
   const { register, handleSubmit, reset, formState } = useForm<FormData>();
+  const formRef = useRef<HTMLFormElement | null>(null);
+
+  useEffect(() => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const onSubmit = async ({ prompt }: FormData) => {
     setMessages(prev => [...prev, { content: prompt, role: 'user' }]);
@@ -72,6 +77,7 @@ function ChatBot() {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-2 items-end border-2 p-4 rounded-3xl"
+        ref={formRef}
       >
         <textarea
           {...register('prompt', {
