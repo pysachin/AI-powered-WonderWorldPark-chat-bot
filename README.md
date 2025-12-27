@@ -1,4 +1,4 @@
-# code-with-mosh-ai-powered-app
+# ai-powered-app-them-park-chat-bot
 
 To install dependencies:
 
